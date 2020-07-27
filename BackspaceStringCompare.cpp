@@ -1,33 +1,42 @@
 class Solution {
 public:
-    bool backspaceCompare(string S, string T) {
-        string a = get(S);
-        string b = get(T);
-
-        return a==b;
-    }
-
-    string get(string s)
-    {
-      string ans ;
-      int n = s.size(),count=0;
-      for(int i=n-1;i>=0;i--)
+    bool backspaceCompare(string s, string t) {
+      int k1=0,k2=0;
+      for(int i=0;i<s.size();i++)
       {
-          if(s[i] == '#'){
-              count += 1;
+          if(s[i]=='#')
+          {
+              k1-=1;
+              k1 = max(0,k1);
           }
-          else {
-              if(count>0)
-              {
-                  count -= 1;
-              }
-              else
-              {
-                  ans += s[i];
-              }
+          else 
+          {
+              s[k1]=s[i];
+              k1+=1;
           }
       }
-      reverse(ans.begin(),ans.end());
-        return ans;
+      for(int i=0;i<t.size();i++)
+      {
+          if(t[i] == '#')
+          {
+              k2-=1;
+              k2 = max(0,k2);
+          }
+          else
+          {
+              t[k2] = t[i];
+              k2+=1;
+          }
+      }
+      if(k1 != k2)
+          return false;
+      for(int i=0;i<k1;i++)
+      {
+          if(s[i] != t[i])
+              return false;
+      }
+        return true;
     }
+    
+    
 };
